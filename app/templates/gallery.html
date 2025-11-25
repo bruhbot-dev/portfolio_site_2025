@@ -20,9 +20,10 @@
 
                 <div class="card-body">
                     <h5 class="card-title">{{ photo.title or "Untitled" }}</h5>
-                    {% if photo.tags %}
-                    <p class="text-muted small">Tags: {{ photo.tags }}</p>
-                    {% endif %}
+ {% for tag in photo.tags %}
+    <span class="badge bg-primary">{{ tag.name }}</span>
+{% endfor %}
+
                 </div>
             </div>
         </div>
