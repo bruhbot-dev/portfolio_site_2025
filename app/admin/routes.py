@@ -1,6 +1,7 @@
 import os
 from flask import render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
+from flask_login import login_required
 
 from . import admin
 from app.extensions import db
@@ -14,6 +15,7 @@ def allowed_file(filename):
 
 
 @admin.route("/upload", methods=["GET", "POST"])
+@login_required
 def upload():
     if request.method == "POST":
         file = request.files.get("file")
@@ -48,3 +50,21 @@ def upload():
         return redirect(url_for("admin.upload"))
 
     return render_template("upload.html")
+
+@admin.route("/delete/<int:id>", methods=["POST"])
+@login_required
+def delete_photo(id):
+    photo = Photo.query.get_or_404(id)
+
+    # Delete file from filesystem
+    file_path = os.path.join(UPLOAD_FOLDER, photo.filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # Delete DB entry
+    db.session.delete(photo)
+    db.session.commit()
+
+    flash("Photo deleted successfully!", "success")
+    return redirect(url_for("main.gallery"))
+

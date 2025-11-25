@@ -1,1 +1,39 @@
-/venv
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+
+# ---- Environment ----
+venv/
+.env
+*.env
+
+# ---- IDE ----
+.vscode/
+.idea/
+
+# ---- SQLite Database ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- Uploads (Do NOT track user-uploaded files) ----
+app/static/uploads/
+app/static/uploads/*
+
+# ---- MacOS cruft ----
+.DS_Store
+
+# ---- Logs ----
+*.log
+
+# ---- Byte-compiled and temporary files ----
+*.~ 
+*.bak
+*~
+
+# ---- Flask session files (if using filesystem) ----
+instance/
