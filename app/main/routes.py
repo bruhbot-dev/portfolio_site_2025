@@ -7,8 +7,8 @@ from sqlalchemy import or_
 
 @main.route("/")
 def home():
-    print("Home route hit!")   # DEBUG LINE
-    return render_template("home.html")
+    photos = Photo.query.order_by(Photo.id.desc()).limit(6).all()
+    return render_template("home.html", photos=photos)
 
 
 @main.route("/gallery")

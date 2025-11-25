@@ -1,10 +1,46 @@
 {% extends "base.html" %}
-
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-center">Photography Portfolio</h1>
-    <p class="text-center">Welcome to my work!</p>
+
+<!-- Hero Section -->
+<div class="text-center mt-5 mb-5">
+    <h1 class="display-4">Oliver Johnson Photography</h1>
+    <p class="lead text-muted">A curated collection of landscapes, portraits, and moments.</p>
+
+    <a href="{{ url_for('main.gallery') }}" class="btn btn-primary btn-lg mt-3">View Full Gallery</a>
+    <a href="{{ url_for('main.filter_gallery') }}" class="btn btn-outline-secondary btn-lg mt-3">Filter by Tags</a>
 </div>
+
+<!-- Featured Photos -->
+<h3 class="text-center mb-4">Recent Uploads</h3>
+
+<div class="row">
+    {% for photo in photos %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <a href="{{ url_for('main.photo_detail', id=photo.id) }}">
+                <img 
+                    src="{{ url_for('static', filename='uploads/' ~ photo.filename) }}"
+                    class="card-img-top"
+                    alt="{{ photo.title }}"
+                    style="height: 250px; object-fit: cover;"
+                >
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{ photo.title or "Untitled" }}</h5>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- About Section -->
+<div class="mt-5 p-4 bg-light rounded">
+    <h4>About This Portfolio</h4>
+    <p>
+        This web application showcases a curated selection of my photography. 
+    </p>
+</div>
+
 {% endblock %}
