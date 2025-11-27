@@ -57,26 +57,30 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+<ul class="navbar-nav ms-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.gallery') }}">Gallery</a>
-                    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.gallery') }}">Gallery</a>
+    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
+    {% if current_user.is_authenticated %}
+        <!-- Authenticated user sees Upload + Logout -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin.upload') }}">Upload</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Logout</a>
+        </li>
+    {% else %}
+<li class="nav-item">
+    <a class="btn btn-outline-light ms-3" href="{{ url_for('auth.login') }}">
+        Login
+    </a>
+</li>
+    {% endif %}
 
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin.upload') }}">Upload</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Logout</a>
-                    </li>
-                    {% endif %}
+</ul>
 
-                </ul>
             </div>
         </div>
     </nav>

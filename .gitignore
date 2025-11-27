@@ -37,3 +37,5 @@ app/static/uploads/*
 
 # ---- Flask session files (if using filesystem) ----
 instance/
+
+app/portfolio.db

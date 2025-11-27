@@ -1,5 +1,5 @@
 import os
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, session, url_for, flash
 from werkzeug.utils import secure_filename
 from flask_login import login_required
 from app.models import Photo, Tag
@@ -54,7 +54,9 @@ def upload():
         db.session.add(photo)
         db.session.commit()
 
-        flash("Photo uploaded successfully!", "success")
+        if "uploaded_once" not in session:
+            flash("Photo uploaded successfully!", "success")
+            session["uploaded_once"] = True
         return redirect(url_for("admin.upload"))
     # GET request
     return render_template("upload.html")
