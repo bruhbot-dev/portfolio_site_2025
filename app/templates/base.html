@@ -1,51 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{% block title %}Photography Portfolio{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Oliver Johnson{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .navbar-nav .nav-link {
+            margin-left: 1rem;
+        }
+
+        footer {
+            background: #111;
+            color: #ccc;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+
+    {% block head_extra %}{% endblock %}
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('main.home') }}">Portfolio</a>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('main.home') }}">
+                Oliver Johnson
+            </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
-        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.gallery') }}">Gallery</a>
+                    </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('main.gallery') }}">Gallery</a>
-        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('admin.upload') }}">Upload</a>
-        </li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.upload') }}">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
 
-        <li class="nav-item">
-  <a class="nav-link" href="{{ url_for('main.filter_gallery') }}">Filter</a>
-</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-
-      </ul>
+    <!-- FLASH MESSAGES -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
-  </div>
-</nav>
 
-<!-- PAGE CONTENT -->
-<div class="container mt-4">
-    {% block content %}{% endblock %}
-</div>
+    <!-- MAIN PAGE CONTENT -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; {{ current_year if current_year else "2025" }} Oliver Johnson — Photography & Engineering</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    {% block body_extra %}{% endblock %}
 </body>
 </html>
-
