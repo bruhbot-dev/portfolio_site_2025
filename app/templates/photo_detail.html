@@ -30,11 +30,18 @@
             <p class="mt-3">{{ photo.description }}</p>
             {% endif %}
 
-            {% if photo.tags %}
-            <p class="text-muted">
-                <strong>Tags:</strong> {{ photo.tags }}
-            </p>
-            {% endif %}
+{% if photo.tags %}
+<p class="text-muted">
+    <strong>Tags:</strong>
+    {% for tag in photo.tags %}
+<a href="{{ url_for('main.gallery', tag=tag.name) }}" 
+   class="badge bg-primary text-decoration-none">
+    {{ tag.name }}
+</a>
+    {% endfor %}
+</p>
+{% endif %}
+
 
             {% if current_user.is_authenticated %}
             <form action="{{ url_for('admin.delete_photo', id=photo.id) }}" method="POST" class="mt-4">
