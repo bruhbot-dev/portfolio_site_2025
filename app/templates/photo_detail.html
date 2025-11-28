@@ -9,11 +9,14 @@
 
     <div class="row">
         <div class="col-md-8">
-            <img 
-                src="{{ url_for('static', filename='uploads/' ~ photo.filename) }}"
-                alt="{{ photo.title }}"
-                class="img-fluid rounded shadow"
-            >
+<img 
+    src="{{ url_for('static', filename='uploads/' ~ photo.filename) }}"
+    alt="{{ photo.title }}"
+    class="img-fluid rounded shadow"
+    id="photoFullscreen"
+    style="cursor: zoom-in;"
+>
+
         </div>
 
         <div class="col-md-4">
@@ -37,4 +40,34 @@
     </div>
 
 </div>
+
+{% block body_extra %}
+<!-- Fullscreen Lightbox Modal -->
+<div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
+    <img id="lightboxImage" class="lightbox-image">
+</div>
+
+<script>
+    const image = document.getElementById("photoFullscreen");
+    const overlay = document.getElementById("lightboxOverlay");
+    const overlayImg = document.getElementById("lightboxImage");
+
+    image.onclick = () => {
+        overlay.style.display = "flex";
+        overlayImg.src = image.src;
+        document.body.style.overflow = "hidden";
+    };
+
+    function closeLightbox() {
+        overlay.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+    });
+</script>
+
+{% endblock %}
+
 {% endblock %}
