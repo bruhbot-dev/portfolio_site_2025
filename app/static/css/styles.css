@@ -43,3 +43,20 @@
     max-width: 95vw;
     transition: 0.3s ease;
 }
+.photo-detail-img {
+    max-height: 70vh;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;   
+    
+
+}
+
+.photo-info {
+    margin-top: 10px;
+}
+
+.photo-detail-row {
+    align-items: flex-start;  
+}

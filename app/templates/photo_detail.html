@@ -5,21 +5,25 @@
 {% block content %}
 <div class="container mt-5">
 
+    <!-- Back Button -->
     <a href="{{ url_for('main.gallery') }}" class="btn btn-secondary mb-4">← Back to Gallery</a>
 
-    <div class="row">
+    <!-- Photo + Info -->
+    <div class="row photo-detail-row">
+        
+        <!-- LEFT COLUMN: Image -->
         <div class="col-md-8">
-<img 
-    src="{{ url_for('static', filename='uploads/' ~ photo.filename) }}"
-    alt="{{ photo.title }}"
-    class="img-fluid rounded shadow"
-    id="photoFullscreen"
-    style="cursor: zoom-in;"
->
-
+            <img 
+                src="{{ url_for('static', filename='uploads/' ~ photo.filename) }}"
+                alt="{{ photo.title }}"
+                class="img-fluid rounded shadow photo-detail-img"
+                id="photoFullscreen"
+                style="cursor: zoom-in;"
+            >
         </div>
 
-        <div class="col-md-4">
+        <!-- RIGHT COLUMN: Info -->
+        <div class="col-md-4 photo-info">
             <h2>{{ photo.title or "Untitled" }}</h2>
 
             {% if photo.description %}
@@ -30,21 +34,22 @@
             <p class="text-muted">
                 <strong>Tags:</strong> {{ photo.tags }}
             </p>
-{% if current_user.is_authenticated %}
+            {% endif %}
+
+            {% if current_user.is_authenticated %}
             <form action="{{ url_for('admin.delete_photo', id=photo.id) }}" method="POST" class="mt-4">
-    <button class="btn btn-danger" type="submit">Delete Photo</button>
-</form>
-{% endif %}
-
-
+                <button class="btn btn-danger" type="submit">Delete Photo</button>
+            </form>
             {% endif %}
         </div>
-    </div>
 
+    </div>
 </div>
 
+{% endblock %}
+
 {% block body_extra %}
-<!-- Fullscreen Lightbox Modal -->
+<!-- Fullscreen Lightbox Overlay -->
 <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
     <img id="lightboxImage" class="lightbox-image">
 </div>
@@ -69,7 +74,5 @@
         if (e.key === "Escape") closeLightbox();
     });
 </script>
-
-{% endblock %}
 
 {% endblock %}
