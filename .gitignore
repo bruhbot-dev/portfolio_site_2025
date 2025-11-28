@@ -39,3 +39,6 @@ app/static/uploads/*
 instance/
 
 app/portfolio.db
+
+portfolio.db
+
