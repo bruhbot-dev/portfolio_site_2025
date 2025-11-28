@@ -10,12 +10,24 @@ def home():
     photos = Photo.query.order_by(Photo.id.desc()).limit(6).all()
     return render_template("home.html", photos=photos)
 
-
 @main.route("/gallery")
 def gallery():
-    photos = Photo.query.all()
-    return render_template("gallery.html", photos=photos)
+    tag_filter = request.args.get("tag")  # <-- this is the key
 
+    if tag_filter:
+        # Filter photos that have this tag
+        photos = (
+            Photo.query.join(Photo.tags)
+            .filter(Tag.name == tag_filter)
+            .all()
+        )
+    else:
+        photos = Photo.query.all()
+
+    # Also pass tags so your filter UI still works
+    all_tags = Tag.query.order_by(Tag.name).all()
+
+    return render_template("gallery.html", photos=photos, tags=all_tags, selected_tag=tag_filter)
 
 @main.route("/photo/<int:id>")
 def photo_detail(id):
